@@ -1,0 +1,9 @@
+float32 ms_error 
+float64 force_desired
+float32 force_event
+float64 force_weiss
+float32 force_robot
+float64 force_weiss2
+float64 delta_z
+float32 desire_ar
+float32 sense_ar

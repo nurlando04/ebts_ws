@@ -1,0 +1,8 @@
+prefix=/home/robpc/ebts_ws/devel
+
+Name: weiss_kms40_emulator
+Description: Description of weiss_kms40_emulator
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
