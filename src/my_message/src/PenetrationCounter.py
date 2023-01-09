@@ -8,6 +8,9 @@ import sys
 import rosbag
 import os
 
+
+
+'''This script is made for the second experiment? mostly i forget what it did, hope you understand good luck ( ͡~ ͜ʖ ͡°) '''
 #novibro
 #vibro
 #holonovibro
