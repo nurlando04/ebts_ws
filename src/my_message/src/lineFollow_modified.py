@@ -34,10 +34,6 @@ class Visualiser:
         self.force_data = msg.data
 
     def update_plot(self, frame):
-        now = datetime.now()
-
-        current_time = now.isoformat()
-        print("Current Time =", current_time)
         self.x_index_actual = len(self.x_actual_data)
         self.x_index_desired = len(self.x_actual_data) + self.maxt/4
 
@@ -63,28 +59,27 @@ class Visualiser:
 
         self.actual_force_line.set_data(self.x_actual_data, self.y_actual_data)
 
-        self.calculateMSE()
-        self.publishLineFollowData()
+        if self.x_index_actual > self.maxt/2:
+            self.calculateMSE()
+            self.publishLineFollowData()
 
         return self.actual_force_line, self.desired_force_line
 
     def calculateMSE(self):
-        if self.x_index_actual > self.maxt/2:
-            dif = self.y_actual_data[self.x_index_actual] - \
-                self.y_desired_data[int(self.x_index_actual-self.maxt/4)]
-        else:
-            dif = 0
+
+        dif = self.y_actual_data[self.x_index_actual] - \
+            self.y_desired_data[int(self.x_index_actual-self.maxt/4)]
         squared_dif = dif**2
         self.sum = self.sum + squared_dif
         MSE = self.sum/(self.x_index_actual+1)
         print(MSE)
         print("actual data:" + str(self.y_actual_data[self.x_index_actual]))
-        print("desired data:" + str(self.y_desired_data[self.x_index_actual]))
+        print("desired data:" + str(self.y_desired_data[int(self.x_index_actual-self.maxt/4)]))
     
     def publishLineFollowData(self):
         msg2 = linefollowData()
         msg2.mean_squared_error = round(self.MSE, 3)
-        msg2.y_desired = self.y_desired_data[self.x_index_actual]
+        msg2.y_desired = self.y_desired_data[int(self.x_index_actual-self.maxt/4)]
         msg2.y_sensed = self.y_actual_data[self.x_index_actual]
         self.pub.publish(msg2)
 

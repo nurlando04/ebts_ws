@@ -57,8 +57,8 @@ class Nodo():
         try:
             connection.send(b.encode())
             print(b)
-            mode = connection.recv(1024)
-            twosignals = mode.decode("utf-8").split('|')
+            # mode = connection.recv(1024)
+            # twosignals = mode.decode("utf-8").split('|')
 
         except:
             print("closing connection")
@@ -67,31 +67,31 @@ class Nodo():
             rospy.signal_shutdown(reason)
             exit()
 
-        print(twosignals)
+        # print(twosignals)
 
-        if len(twosignals[1]) < 10 and len(twosignals[1]) > 3:
-            signal = [float(twosignals[0].replace(',', '.')),
-                      float(twosignals[1][0:-2].replace(',', '.'))]
-        elif len(twosignals[1]) <= 3:
-            signal = [float(twosignals[0].replace(',', '.')),
-                      float(twosignals[1][0:2].replace(',', '.'))]
-        else:
-            signal = [float(twosignals[0].replace(',', '.')),
-                      float(twosignals[1][0:6].replace(',', '.'))]
+        # if len(twosignals[1]) < 10 and len(twosignals[1]) > 3:
+        #     signal = [float(twosignals[0].replace(',', '.')),
+        #               float(twosignals[1][0:-2].replace(',', '.'))]
+        # elif len(twosignals[1]) <= 3:
+        #     signal = [float(twosignals[0].replace(',', '.')),
+        #               float(twosignals[1][0:2].replace(',', '.'))]
+        # else:
+        #     signal = [float(twosignals[0].replace(',', '.')),
+        #               float(twosignals[1][0:6].replace(',', '.'))]
 
-        if signal[1] > 0:
-            signal[1] = 0
+        # if signal[1] > 0:
+        #     signal[1] = 0
 
-        signal = [-8/0.3*signal[0], 8/0.5*signal[1]]
+        # signal = [-8/0.3*signal[0], 8/0.5*signal[1]]
 
-        if abs(self.temp-signal[1]) > 8:
-            signal[1] = self.temp
+        # if abs(self.temp-signal[1]) > 8:
+        #     signal[1] = self.temp
 
-        pub = rospy.Publisher('two_signals', Float32MultiArray, queue_size=1)
-        msg = Float32MultiArray()
-        msg.data = signal
-        pub.publish(msg)
-        self.temp = signal[1]
+        # pub = rospy.Publisher('two_signals', Float32MultiArray, queue_size=1)
+        # msg = Float32MultiArray()
+        # msg.data = signal
+        # pub.publish(msg)
+        # self.temp = signal[1]
 
 
 if __name__ == '__main__':
